@@ -40,7 +40,7 @@ function Auth() {
     } catch (e) {
       return e.message.replace("Firebase: Error ", "");
     }
-    navigate('/');
+    navigate('/auth');
   }
 
   // 로그아웃
