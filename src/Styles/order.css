@@ -1,0 +1,32 @@
+/* progressbar design */
+.progressDot_Active {
+	width: 28px;
+	height: 28px;
+	border-radius: 9999px;
+	background-color: #000;
+}
+
+.progressDot_InActive {
+	width: 28px;
+	height: 28px;
+	border-radius: 9999px;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.progressLine_Active {
+	width: 128px;
+	height: 4px;
+	margin: auto 0;
+	background-color: #000;
+}
+
+.progressLine_InActive {
+	width: 128px;
+	height: 4px;
+	margin: auto 0;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.progressBar_Wrapper {
+	display: flex;
+	justify-content: center;
+}
