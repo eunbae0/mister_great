@@ -1,4 +1,4 @@
-function Order({ isLogin }) {
+function OrderHistory({ isLogin }) {
   return (
     <div>
       {isLogin ? "목록표시" : "주소+이름 받고 목록표시"}
@@ -6,4 +6,4 @@ function Order({ isLogin }) {
   )
 }
 
-export default Order;
+export default OrderHistory;
