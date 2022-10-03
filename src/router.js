@@ -7,6 +7,7 @@ import Main from "./Pages/main";
 import Auth from "./Pages/auth";
 import Order from "./Pages/order";
 import Register from "./Pages/register";
+import OrderHistory from "./Pages/orderHistory";
 
 const Router = () => {
   // 새로고침시 유저 로그인 여부, 상태 불러오기
@@ -23,6 +24,7 @@ const Router = () => {
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
         <Route path="/order" element={<Order isLogin={isLogin} />} />
+        <Route path="/orderHistory" element={<OrderHistory isLogin={isLogin} />} />
       </Routes>
     </BrowserRouter>
   );
