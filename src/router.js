@@ -8,7 +8,6 @@ import Auth from "./Pages/auth";
 import Order from "./Pages/order";
 import OrderHistory from "./Pages/orderHistory";
 import Register from "./Pages/register";
-import OrderHistory from "./Pages/orderHistory";
 
 const Router = () => {
   // 새로고침시 유저 로그인 여부, 상태 불러오기
