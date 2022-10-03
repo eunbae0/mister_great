@@ -80,7 +80,8 @@ function Auth() {
     return (
       <div>
       <p>~~!?님 환영</p>
-      <button onClick={logout}>로그아웃</button>
+      <p><Link to={'../orderHistory'}>주문내역보기/주문하기</Link></p>
+      <p><button onClick={logout}>로그아웃</button></p>
       </div>
     )
   }
