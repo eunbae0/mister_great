@@ -9,12 +9,12 @@ import '../Styles/order.css';
 
 function progressChanger (progress, setProgress) {
   switch (progress) {
-    case progress === 0:
+    case 0:
       return <SelectDinner setProgress={setProgress} />;
-    case progress === 1:
+    case 1:
       return <SubmitInfo setProgress={setProgress} />;
-    case progress === 2:
-      return <Payment setProgress={setProgress} />;
+    case 2:
+      return <Payment />;
     default:
       return <SelectDinner setProgress={setProgress} />;
   }

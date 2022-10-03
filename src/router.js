@@ -6,6 +6,7 @@ import { auth } from './firebase.config.js';
 import Main from "./Pages/main";
 import Auth from "./Pages/auth";
 import Order from "./Pages/order";
+import OrderHistory from "./Pages/orderHistory";
 import Register from "./Pages/register";
 
 const Router = () => {
@@ -23,6 +24,7 @@ const Router = () => {
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
         <Route path="/order" element={<Order isLogin={isLogin} />} />
+        <Route path="/orderHistory" element={<OrderHistory isLogin={isLogin} />} />
       </Routes>
     </BrowserRouter>
   );
