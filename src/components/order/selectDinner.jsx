@@ -8,12 +8,12 @@ function SelectDinner({ setProgress }) {
     // ../Pages/register.jsx 파일 참고해서 작성해주세요
     const type = e.target.type;
     if (type === 'menu') {
-      setAuthObj((prev) => {
+      setProgress((prev) => {
         return { ...prev, email: e.target.value};
       });
     }
     else if (type === 'style') {
-      setAuthObj((prev) => {
+      setProgress((prev) => {
         return { ...prev, password: e.target.value};
       });
     } else {

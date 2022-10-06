@@ -3,8 +3,20 @@ import { useState } from 'react';
 function SubmitInfo({ setProgress }) {
   // useState
   
-  const onChangeSubmitInfo = () => {
-
+  const onChangeSubmitInfo = (e) => {
+    const type = e.target.type; // input에서 지정해준 type정보
+    if (type === 'time') {
+      setProgress((prev) => {
+        return { ...prev, time: e.target.value};
+      });
+    }
+    else if (type === 'text') {
+      setProgress((prev) => {
+        return { ...prev, text: e.target.value};
+      });
+    } else {
+      console.log('error');
+    }
   };
 
   const onSubmitSubmitInfo = (e) => {
