@@ -1,33 +1,25 @@
 import { 
     Link,
     useNavigate,
-     } from 'react-router-dom'
+} from 'react-router-dom';
 import React, { useState } from "react";
 import { 
     signInWithEmailAndPassword, //로그인
-    onAuthStateChanged,         // 로그인 상태
     signOut,                    // 로그아웃
-     } from "firebase/auth";
+} from "firebase/auth";
 import { auth } from "../firebase.config";
 
-function Auth() {
+function Auth({isLogin}) {
   const navigate = useNavigate(); // 로그인/아웃 완료시 메인페이지로 이동하기위한 훅 선언
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // 로그인 상태 감지
-  const [isLogin, setIsLogin] = useState(false);
-  onAuthStateChanged(auth, (user) => {
-    if(user) setIsLogin(true); 
-      else setIsLogin(false);
-  })
 
   // 로그인 입력 변경 시 동작
   const onChange = (event) => {
     const {target: {name, value}} = event;
     if (name==='email') {
       setEmail(value)
-    } else if (name=== "password") {
+    } else if (name === "password") {
       setPassword(value);
     }
   }
@@ -37,8 +29,16 @@ function Auth() {
     event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (e) {
-      return e.message.replace("Firebase: Error ", "");
+    } catch (err) {
+      if (err.code === 'auth/user-not-found') {
+        alert('이메일을 확인해주세요');
+        return;
+      }
+      if (err.code === 'auth/wrong-password') {
+        alert('비밀번호를 확인해주세요');
+        return;
+      }
+      return err.message.replace("Firebase: Error ", "");
     }
     navigate('/auth');
   }

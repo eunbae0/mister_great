@@ -2,16 +2,21 @@ import { useState } from 'react';
 
 function SubmitInfo({ setProgress }) {
   // useState
+  const infoObject = { 
+    time: '',
+    place: '',
+  };
+  const [obj, setObj] = useState(infoObject);
   
   const onChangeSubmitInfo = (e) => {
-    const type = e.target.type; // input에서 지정해준 type정보
-    if (type === 'time') {
-      setProgress((prev) => {
+    const name = e.target.name; // input에서 지정해준 name정보
+    if (name === 'time') {
+      setObj((prev) => {
         return { ...prev, time: e.target.value};
       });
     }
-    else if (type === 'text') {
-      setProgress((prev) => {
+    else if (name === 'place') {
+      setObj((prev) => {
         return { ...prev, text: e.target.value};
       });
     } else {
@@ -30,11 +35,13 @@ function SubmitInfo({ setProgress }) {
       <form onSubmit={onSubmitSubmitInfo}>
         <input
           onChange={onChangeSubmitInfo}
+          name="time"
           type="time"
           placeholder="시간"
           />
         <input
           onChange={onChangeSubmitInfo}
+          name="place"
           type="text"
           placeholder="장소"
         />
