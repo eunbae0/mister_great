@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { db } from '../../firebase.config';
+import { updateDoc, doc } from 'firebase/firestore';
 
-function SubmitInfo({ setProgress }) {
+function SubmitInfo({ setProgress, orderId }) {
   // useState
   const infoObject = { 
     time: '',
@@ -24,8 +26,12 @@ function SubmitInfo({ setProgress }) {
     }
   };
 
-  const onSubmitSubmitInfo = (e) => {
+  const onSubmitSubmitInfo = async (e) => {
     e.preventDefault();
+    await updateDoc(doc(db, "Order", orderId), {
+      time: obj.time,
+      place: obj.place,
+    });
     setProgress(2);
     // 이 함수는 작성안하셔도 됩니다!
   };

@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { db } from '../../firebase.config';
+import { setDoc, doc } from 'firebase/firestore';
+import { v4 } from 'uuid';
 
-function SelectDinner({ setProgress }) {
+function SelectDinner({ setProgress, setOrderId }) {
   const dinnerObject = { 
     dinnerMenu: '',
     dinnerStyle: '',
@@ -24,8 +27,14 @@ function SelectDinner({ setProgress }) {
     }
   };
 
-  const onSubmitSelect = (e) => {
+  const onSubmitSelect = async (e) => {
     e.preventDefault();
+    const orderId = v4();
+    setOrderId(orderId);
+    await setDoc(doc(db, "Order", orderId), {
+      menu: obj.dinnerMenu,
+      style: obj.dinnerStyle,
+    });
     setProgress(1);
     // 이 함수는 작성안하셔도 됩니다!
   }
