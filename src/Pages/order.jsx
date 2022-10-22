@@ -20,7 +20,7 @@ function progressChanger (progress, setProgress, orderId, setOrderId) {
   }
 }
 
-function Order() {
+function Order({ isLogin, uid }) {
   const [progress, setProgress] = useState(0);
   const [orderId, setOrderId] = useState('');
   return (

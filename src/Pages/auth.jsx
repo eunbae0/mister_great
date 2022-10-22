@@ -5,9 +5,9 @@ import {
 import React, { useState } from "react";
 import { 
     signInWithEmailAndPassword, //로그인
-    signOut,                    // 로그아웃
 } from "firebase/auth";
 import { auth } from "../firebase.config";
+import { useEffect } from 'react';
 
 function Auth({isLogin}) {
   const navigate = useNavigate(); // 로그인/아웃 완료시 메인페이지로 이동하기위한 훅 선언
@@ -43,48 +43,37 @@ function Auth({isLogin}) {
     navigate('/auth');
   }
 
-  // 로그아웃
-  const logout = async () => {
-    await signOut(auth);
-    navigate('/');
-  };
+  useEffect(() => {
+    if(isLogin)
+      navigate('/orderHistory');
+  }, [isLogin, navigate])
 
-  if(!isLogin) {
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          <form onSubmit={onSubmit}>
-            <input
-              onChange={onChange}
-              type="email"
-              name="email"
-              value={email}
-              placeholder="이메일을 입력하세요"
-              />
-            <input
-              onChange={onChange}
-              type="password"
-              name="password"
-              value={password}
-              placeholder="비밀번호를 입력하세요"
+        <form onSubmit={onSubmit}>
+          <input
+            onChange={onChange}
+            type="email"
+            name="email"
+            value={email}
+            placeholder="이메일을 입력하세요"
             />
-            <button type="submit">
-              로그인
-            </button>
-            <p>아직 회원이 아니신가요?<Link to={'../register'}>회원가입</Link></p>
-          </form>
-        </div>
+          <input
+            onChange={onChange}
+            type="password"
+            name="password"
+            value={password}
+            placeholder="비밀번호를 입력하세요"
+          />
+          <button type="submit">
+            로그인
+          </button>
+          <p>아직 회원이 아니신가요?<Link to={'../register'}>회원가입</Link></p>
+        </form>
       </div>
-    )
-  } else {
-    return (
-      <div>
-      <p>~~!?님 환영</p>
-      <p><Link to={'../orderHistory'}>주문내역보기/주문하기</Link></p>
-      <p><button onClick={logout}>로그아웃</button></p>
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Auth;
