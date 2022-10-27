@@ -37,6 +37,7 @@ function SubmitInfo({ setProgress, orderId }) {
     await updateDoc(doc(db, "Order", orderId), {
       time: fullTime,
       place: obj.place,
+      status: "조리중",
     });
     setProgress(2);
     // 이 함수는 작성안하셔도 됩니다!

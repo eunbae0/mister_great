@@ -28,7 +28,7 @@ const Router = () => {
         <Route path="/auth" element={<Auth isLogin={isLogin} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/order" element={<Order isLogin={isLogin} uid={uid} />} />
-        <Route path="/orderHistory" element={<OrderHistory isLogin={isLogin} />} />
+        <Route path="/orderHistory" element={<OrderHistory isLogin={isLogin} uid={uid} />} />
       </Routes>
     </BrowserRouter>
   );
