@@ -7,10 +7,10 @@ import Payment from '../components/order/payment';
 
 import '../Styles/order.css';
 
-function progressChanger (progress, setProgress, orderId, setOrderId) {
+function progressChanger (progress, setProgress, orderId, setOrderId, isLogin, uid) {
   switch (progress) {
     case 0:
-      return <SelectDinner setProgress={setProgress} setOrderId={setOrderId} />;
+      return <SelectDinner setProgress={setProgress} setOrderId={setOrderId} isLogin={isLogin} uid={uid} />;
     case 1:
       return <SubmitInfo setProgress={setProgress} orderId={orderId} />;
     case 2:
@@ -26,7 +26,7 @@ function Order({ isLogin, uid }) {
   return (
     <div>
       <ProgressBar progress={progress} />
-      {progressChanger(progress, setProgress, orderId, setOrderId)}
+      {progressChanger(progress, setProgress, orderId, setOrderId, isLogin, uid)}
     </div>
   )
 }

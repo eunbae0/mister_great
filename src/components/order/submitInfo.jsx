@@ -19,7 +19,7 @@ function SubmitInfo({ setProgress, orderId }) {
     }
     else if (name === 'place') {
       setObj((prev) => {
-        return { ...prev, text: e.target.value};
+        return { ...prev, place: e.target.value};
       });
     } else {
       console.log('error');
@@ -28,8 +28,14 @@ function SubmitInfo({ setProgress, orderId }) {
 
   const onSubmitSubmitInfo = async (e) => {
     e.preventDefault();
+    const today = new Date();   
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+
+    const fullTime = year + '/' + month + '/' + date + '/' + obj.time;
     await updateDoc(doc(db, "Order", orderId), {
-      time: obj.time,
+      time: fullTime,
       place: obj.place,
     });
     setProgress(2);
