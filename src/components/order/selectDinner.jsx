@@ -40,6 +40,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
         menu: obj.dinnerMenu,
         style: obj.dinnerStyle,
         uid,
+        nonMember: {},
       });
     } else {
       const name = nameRef.current.value;

@@ -1,6 +1,12 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-function Main() {
+function Main({ isLogin }) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(isLogin)
+      navigate('/orderHistory');
+  })
   return (
     <div>
       <button>
