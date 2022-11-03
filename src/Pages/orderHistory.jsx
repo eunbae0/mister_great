@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
+import { useSetRecoilState } from 'recoil'
+
+import { auth, db } from '../firebase.config';
 import { signOut } from 'firebase/auth';
 import { getDocs, query, collection, where } from 'firebase/firestore';
-import { auth, db } from '../firebase.config';
-import { useEffect } from 'react';
 
 function OrderBox({ order }) {
-  console.log(order);
+  const setTodoList = useSetRecoilState(todoListState);
+  const onClickReOrderBtn = () => {
+    const ok = confirm(`${order.menu}디너, ${order.style}스타일, 장소: ${order.place} 로 주문을 진행하시겠습니까?`);
+    if (ok) {
+      setTodoList((prev) => {
+        return { ...prev, menu: order.menu, style: order.style, place: order.place}
+      })
+    }
+  };
   return (
     <div>
       <span>디너: {order.menu}</span>
       <span>디너 스타일: {order.style}</span>
       <span>장소: {order.place}</span>
       <span>주문상태: {order.status}</span>
-      <button>이대로 주문하기</button>
+      <button onClick={onClickReOrderBtn}>이대로 주문하기</button>
     </div>
   );
 }
