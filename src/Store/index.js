@@ -1,7 +1,7 @@
 import { atom } from "recoil"
 
 export const user = atom({
-  key: "selectedLastOrder",
+  key: "reOrder",
   default: {
     menu: "",
     style: "",
