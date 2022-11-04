@@ -4,10 +4,14 @@ import Router from './router';
 import { RecoilRoot } from 'recoil';
 import './index.css';
 
+import PageContainer from './components/common/pageContainer';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <RecoilRoot>
-    <Router />
+    <PageContainer>
+      <Router />
+    </PageContainer>
   </RecoilRoot>
 );
 

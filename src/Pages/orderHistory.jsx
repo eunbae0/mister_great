@@ -20,12 +20,16 @@ function OrderBox({ order, isLastOrder }) {
     }
   };
   return (
-    <div>
-      <span>디너: {order.menu}</span>
-      <span>디너 스타일: {order.style}</span>
-      <span>장소: {order.place}</span>
-      <span>주문상태: {order.status}</span>
-      {isLastOrder && <button onClick={onClickReOrderBtn}>이대로 주문하기</button>}
+    <div className="my-2 p-3 px-6 flex justify-between items-center shadow-lg rounded-lg">
+      <div className="flex flex-col justify-between">
+        <span>디너: {order.menu}</span>
+        <span>디너 스타일: {order.style}</span>
+        <span>장소: {order.place}</span>
+      </div>
+      <div>
+        <span className="mr-4">주문상태: {order.status}</span>
+        {isLastOrder && <button className="shadow-md rounded-md border p-2" onClick={onClickReOrderBtn}>이대로 주문하기</button>}
+      </div>
     </div>
   );
 }
@@ -83,20 +87,24 @@ function OrderHistory({ isLogin, uid }) {
   };
   return (
     <div>
-      { isLogin && 
-        <button onClick={onClickLogout}>
-          Logout
-        </button>
-      }
-      <h2><Link to='../order'>주문하기</Link></h2>
-      { isLogin && <h2>과거 주문목록</h2> }
-      {isLoading ? (
-        lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
-      ): <span>주문 목록이 없습니다.</span>}
-      <h2>주문목록</h2>
-      { isLoading ? (
-        orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
-      ) : <span>주문 목록이 없습니다.</span>}
+      <div className="flex h-32 items-center justify-center relative">
+        <h2><Link className="p-5 shadow-md text-2xl font-bold rounded-full" to='../order'>음식 주문하기</Link></h2>
+        { isLogin &&
+          <button className="absolute top-0 right-0" onClick={onClickLogout}>
+            Logout
+          </button>
+        }
+      </div>
+      <div className="mt-8">
+        { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
+        {isLoading ? (
+          lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
+        ): <span>주문 목록이 없습니다.</span>}
+        <h2 className="mt-8 py-2 text-2xl font-bold">주문목록</h2>
+        { isLoading ? (
+          orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
+        ) : <span>주문 목록이 없습니다.</span>}
+      </div>
     </div>
   )
 }
