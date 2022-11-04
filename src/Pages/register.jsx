@@ -4,8 +4,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-import '../Styles/register.css';
-
 function Auth() {
   const inputEmailRef = useRef(null);
   const inputPasswordRef = useRef(null);

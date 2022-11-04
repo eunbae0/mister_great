@@ -5,8 +5,6 @@ import SelectDinner from '../components/order/selectDinner';
 import SubmitInfo from '../components/order/submitInfo';
 import Payment from '../components/order/payment';
 
-import '../Styles/order.css';
-
 function progressChanger (progress, setProgress, orderId, setOrderId, isLogin, uid) {
   switch (progress) {
     case 0:
