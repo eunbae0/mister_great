@@ -1,4 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+import { reorder } from '../../store';
+
 import { db } from '../../firebase.config';
 import { setDoc, doc } from 'firebase/firestore';
 import { v4 } from 'uuid';
@@ -6,6 +9,8 @@ import { v4 } from 'uuid';
 function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
+  const menuRef = useRef(null);
+  const styleRef = useRef(null);
 
   const dinnerObject = { 
     dinnerMenu: '',
@@ -60,11 +65,26 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
     // 이 함수는 작성안하셔도 됩니다!
   }
 
+  const reorderObj = useRecoilValue(reorder);
+  useEffect(() => {
+    console.log(reorderObj)
+    const menu = menuRef.current;
+    const style = styleRef.current;
+    if (reorderObj.isReorder) {
+      menu.value = reorderObj.menu;
+      style.value = reorderObj.style;
+      setObj((prev) => {
+        return { ...prev, dinnerMenu: reorderObj.menu, dinnerStyle: reorderObj.style};
+      });
+    }
+  }, [])
+  
+
   return (
     <div>
       <form action="submit" onSubmit={onSubmitSelect}>
         {/* 디너 메뉴 */}
-        <select name="menu" onChange={onChangeSelect}>
+        <select ref={menuRef} name="menu" onChange={onChangeSelect}>
           <option value="">--디너 메뉴를 선택하세요--</option>
           <option value="valentine">Valentine dinner</option>
           <option value="french">French dinner</option>
@@ -72,7 +92,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
           <option value="champagne">Champagne Feast dinner</option>
         </select>
         {/* 디너 스타일 */}
-        <select name="style" onChange={onChangeSelect}>
+        <select ref={styleRef} name="style" onChange={onChangeSelect}>
           <option value="">--디너 스타일을 선택하세요--</option>
           <option value="simple">Simple</option>
           <option value="grand">Grand</option>

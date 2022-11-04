@@ -16,7 +16,7 @@ const Router = () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUid(user.uid);
-      setIsLogin(true); 
+      setIsLogin(true);
     }
     else setIsLogin(false);
   })

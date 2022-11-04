@@ -7,14 +7,16 @@ import { auth, db } from '../firebase.config';
 import { signOut } from 'firebase/auth';
 import { getDocs, query, collection, where } from 'firebase/firestore';
 
-function OrderBox({ order }) {
+function OrderBox({ order, isLastOrder }) {
+  const navigate = useNavigate();
   const setTodoList = useSetRecoilState(reorder);
   const onClickReOrderBtn = () => {
-    const ok = confirm(`${order.menu}디너, ${order.style}스타일, 장소: ${order.place} 로 주문을 진행하시겠습니까?`);
+    const ok = confirm(`${order.menu}디너, ${order.style}스타일, 장소: ${order.place} (으)로 주문을 진행하시겠습니까?`);
     if (ok) {
       setTodoList((prev) => {
-        return { ...prev, menu: order.menu, style: order.style, place: order.place}
+        return { ...prev, isReorder: true, menu: order.menu, style: order.style, place: order.place}
       })
+      navigate('/order');
     }
   };
   return (
@@ -23,7 +25,7 @@ function OrderBox({ order }) {
       <span>디너 스타일: {order.style}</span>
       <span>장소: {order.place}</span>
       <span>주문상태: {order.status}</span>
-      <button onClick={onClickReOrderBtn}>이대로 주문하기</button>
+      {isLastOrder && <button onClick={onClickReOrderBtn}>이대로 주문하기</button>}
     </div>
   );
 }
@@ -89,11 +91,11 @@ function OrderHistory({ isLogin, uid }) {
       <h2><Link to='../order'>주문하기</Link></h2>
       { isLogin && <h2>과거 주문목록</h2> }
       {isLoading ? (
-          lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} />)
+        lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
       ): <span>주문 목록이 없습니다.</span>}
       <h2>주문목록</h2>
       { isLoading ? (
-        orderArr.map((order) => <OrderBox key={order.oid} order={order} />)
+        orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
       ) : <span>주문 목록이 없습니다.</span>}
     </div>
   )

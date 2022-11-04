@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+import { reorder } from '../../store';
+
 import { db } from '../../firebase.config';
 import { updateDoc, doc } from 'firebase/firestore';
 
@@ -28,6 +31,10 @@ function SubmitInfo({ setProgress, orderId }) {
 
   const onSubmitSubmitInfo = async (e) => {
     e.preventDefault();
+    if(obj.place == '' || obj.time == '') {
+      alert('정보를 모두 입력하세요');
+      return;
+    }
     const today = new Date();   
     const year = today.getFullYear(); // 년도
     const month = today.getMonth() + 1;  // 월
@@ -43,6 +50,18 @@ function SubmitInfo({ setProgress, orderId }) {
     // 이 함수는 작성안하셔도 됩니다!
   };
 
+  const placeRef = useRef(null);
+  const reorderObj = useRecoilValue(reorder);
+  useEffect(() => {
+    const place = placeRef.current;
+    if (reorderObj.isReorder) {
+      place.value = reorderObj.place;
+      setObj((prev) => {
+        return { ...prev, place: reorderObj.place};
+      });
+    }
+  }, [])
+
   return (
     <div>      
       <form onSubmit={onSubmitSubmitInfo}>
@@ -53,6 +72,7 @@ function SubmitInfo({ setProgress, orderId }) {
           placeholder="시간"
           />
         <input
+          ref={placeRef}
           onChange={onChangeSubmitInfo}
           name="place"
           type="text"
