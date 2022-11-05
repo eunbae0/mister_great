@@ -37,6 +37,10 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
 
   const onSubmitSelect = async (e) => {
     e.preventDefault();
+    if(obj.dinnerMenu == '' || obj.dinnerStyle == '') {
+      alert('정보를 모두 입력하세요');
+      return;
+    }
     const oid = v4();
     setOrderId(oid);
     if(isLogin) {
@@ -81,23 +85,29 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
   
 
   return (
-    <div>
+    <div className="w-full my-8 px-3">
       <form action="submit" onSubmit={onSubmitSelect}>
         {/* 디너 메뉴 */}
-        <select ref={menuRef} name="menu" onChange={onChangeSelect}>
-          <option value="">--디너 메뉴를 선택하세요--</option>
-          <option value="valentine">Valentine dinner</option>
-          <option value="french">French dinner</option>
-          <option value="english">English dinner</option>
-          <option value="champagne">Champagne Feast dinner</option>
-        </select>
+        <div className="my-3 flex justify-between">
+          <h3 className="text-lg font-bold">디너 메뉴</h3>
+          <select ref={menuRef} name="menu" onChange={onChangeSelect} className="outline-none">
+            <option value="">--디너 메뉴를 선택하세요--</option>
+            <option value="valentine">Valentine dinner</option>
+            <option value="french">French dinner</option>
+            <option value="english">English dinner</option>
+            <option value="champagne">Champagne Feast dinner</option>
+          </select>
+        </div>
         {/* 디너 스타일 */}
-        <select ref={styleRef} name="style" onChange={onChangeSelect}>
-          <option value="">--디너 스타일을 선택하세요--</option>
-          <option value="simple">Simple</option>
-          <option value="grand">Grand</option>
-          <option value="deluex">Deluxe</option>
-        </select>
+        <div className="my-3 flex justify-between">
+          <h3 className="text-lg font-bold">디너 스타일</h3>
+          <select ref={styleRef} name="style" onChange={onChangeSelect} className="outline-none">
+            <option value="">--디너 스타일을 선택하세요--</option>
+            <option value="simple">Simple</option>
+            <option value="grand">Grand</option>
+            <option value="deluex">Deluxe</option>
+          </select>
+        </div>
         { !isLogin && (
           <div>
             <h3>비회원 주문을 위해 이름과 비밀번호를 입력해주세요</h3>
@@ -105,9 +115,11 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
             <input type="password" placeholder="비밀번호" ref={passwordRef} />
           </div>
         )}
-        <button type="submit">
-          다음 단계
-        </button>
+        <div className="mt-8 text-right">
+          <button type="submit" className="font-bold p-3 px-5 rounded-full shadow-lg border">
+            다음 단계
+          </button>
+        </div>
       </form>
     </div>
   )

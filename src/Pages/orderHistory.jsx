@@ -96,14 +96,18 @@ function OrderHistory({ isLogin, uid }) {
         }
       </div>
       <div className="mt-8">
-        { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
-        {isLoading ? (
-          lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
-        ): <span>주문 목록이 없습니다.</span>}
-        <h2 className="mt-8 py-2 text-2xl font-bold">주문목록</h2>
-        { isLoading ? (
-          orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
-        ) : <span>주문 목록이 없습니다.</span>}
+        <div>
+          { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
+          {isLoading ? (
+            lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
+          ): <span>주문 목록이 없습니다.</span>}
+        </div>
+        <div className="mt-8 pb-10">
+          <h2 className="py-2 text-2xl font-bold">주문목록</h2>
+          { isLoading ? (
+            orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
+          ) : <span>주문 목록이 없습니다.</span>}
+        </div>
       </div>
     </div>
   )

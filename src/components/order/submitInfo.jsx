@@ -63,24 +63,33 @@ function SubmitInfo({ setProgress, orderId }) {
   }, [])
 
   return (
-    <div>      
+    <div className="w-full my-8 px-3">
       <form onSubmit={onSubmitSubmitInfo}>
-        <input
-          onChange={onChangeSubmitInfo}
-          name="time"
-          type="time"
-          placeholder="시간"
+        <div className="my-3 flex justify-between">
+          <h3 className="text-lg font-bold">배달 시간</h3>
+          <input
+            onChange={onChangeSubmitInfo}
+            name="time"
+            type="time"
+            placeholder="시간"
+            />
+        </div>
+        <div className="my-3 flex justify-between">
+          <h3 className="text-lg font-bold">배달 장소</h3>
+          <input
+            ref={placeRef}
+            onChange={onChangeSubmitInfo}
+            name="place"
+            type="text"
+            placeholder="장소"
+            className="outline-none"
           />
-        <input
-          ref={placeRef}
-          onChange={onChangeSubmitInfo}
-          name="place"
-          type="text"
-          placeholder="장소"
-        />
-        <button type="submit">
-          다음 단계
-        </button>
+        </div>
+        <div className="mt-8 text-right">
+          <button type="submit" className="font-bold p-3 px-5 rounded-full shadow-lg border">
+            다음 단계
+          </button>
+        </div>
       </form>
     </div>
   )
