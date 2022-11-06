@@ -65,32 +65,41 @@ function Auth() {
       });
   };
   return (
-    <div>
-      <form onSubmit={onSubmitAuth} className="flex flex-col">
-        <input
-          ref={inputEmailRef}
-          type="email"
-          placeholder="이메일을 입력하세요"
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="h-96 w-1/2 bg-gray-100 py-14 rounded-md">
+        <form onSubmit={onSubmitAuth} className="h-full flex flex-col justify-between items-center">
+          <input
+            className="w-2/3 outline-none p-2"
+            ref={inputEmailRef}
+            type="email"
+            placeholder="이메일을 입력하세요"
+            />
+          <input
+            className="w-2/3 outline-none p-2"
+            ref={inputPasswordRef}
+            type="password"
+            placeholder="비밀번호를 입력하세요"
           />
-        <input
-          ref={inputPasswordRef}
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-        />
-        <input
-          ref={inputNameRef}
-          type="text"
-          placeholder="이름"
+          <input
+            className="w-2/3 outline-none p-2"
+            ref={inputNameRef}
+            type="text"
+            placeholder="이름"
+            />
+          <input
+            className="w-2/3 outline-none p-2"
+            ref={inputAddressRef}
+            type="text"
+            placeholder="주소"
           />
-        <input
-          ref={inputAddressRef}
-          type="text"
-          placeholder="주소"
-        />
-        <button type="submit">
-          회원가입하기
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-32 p-2 rounded-md shadow border bg-white"
+          >
+            회원가입하기
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

@@ -49,10 +49,11 @@ function Auth({isLogin}) {
   }, [isLogin, navigate])
 
   return (
-    <div>
-      <div>
-        <form onSubmit={onSubmit}>
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="h-96 w-1/2 bg-gray-100 py-20 rounded-md">
+        <form onSubmit={onSubmit} className="h-full flex flex-col justify-between items-center">
           <input
+            className="w-2/3 outline-none p-2"
             onChange={onChange}
             type="email"
             name="email"
@@ -60,16 +61,23 @@ function Auth({isLogin}) {
             placeholder="이메일을 입력하세요"
             />
           <input
+            className="w-2/3 outline-none p-2"
             onChange={onChange}
             type="password"
             name="password"
             value={password}
             placeholder="비밀번호를 입력하세요"
           />
-          <button type="submit">
+          <button 
+            type="submit"
+            className="w-32 p-2 rounded-md shadow border bg-white"
+          >
             로그인
           </button>
-          <p>아직 회원이 아니신가요?<Link to={'../register'}>회원가입</Link></p>
+          <p>
+            <span>아직 회원이 아니신가요?</span>
+            <Link to={'../register'} className="ml-2 text-red-500 font-bold">회원가입</Link>
+          </p>
         </form>
       </div>
     </div>
