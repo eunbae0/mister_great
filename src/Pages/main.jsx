@@ -9,7 +9,7 @@ function Main({ isLogin }) {
   })
   return (
     <div>
-      <button>
+      <button className="p-3 ">
         <Link to="auth">로그인/회원가입하기</Link>
       </button>
       <button>
