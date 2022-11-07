@@ -109,10 +109,12 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
           </select>
         </div>
         { !isLogin && (
-          <div>
-            <h3>비회원 주문을 위해 이름과 비밀번호를 입력해주세요</h3>
-            <input type="text" placeholder="이름" ref={nameRef}/>
-            <input type="password" placeholder="비밀번호" ref={passwordRef} />
+          <div className="my-8">
+            <h3 className="text-xl font-bold text-center">비회원 주문을 위해 이름과 비밀번호를 입력해주세요</h3>
+            <div className="mt-4 flex justify-end items-center">
+              <input type="text" placeholder="이름" ref={nameRef} className="w-28 border-b-2 text-center outline-none"/>
+              <input type="password" placeholder="비밀번호" ref={passwordRef} className="ml-3 border-b-2 text-center outline-none"/>
+            </div>
           </div>
         )}
         <div className="mt-8 text-right">

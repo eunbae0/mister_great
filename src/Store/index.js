@@ -18,3 +18,14 @@ export const authInfo = atom({
     uid: '',
   }
 })
+
+export const nonMemberInfo = atom({
+  key: "nonMemberInfo",
+  default: {
+    isNonMemberLogin: false,
+    nonMemberInfo: {
+      name: '',
+      password: '',
+    }
+  }
+})

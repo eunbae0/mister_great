@@ -20,13 +20,13 @@ function Payment() {
       <form onSubmit={onSubmitPayment}>
         <div className="my-3 flex justify-between items-center">
           <h3 className="text-lg font-bold">카드번호</h3>
-          <input type="text" className="h-8 w-16 p-1 outline-none border rounded-md text-center"/>
+          <input required type="text" className="h-8 w-20 ml-40 p-1 outline-none border rounded-md text-center"/>
           -
-          <input type="text" className="h-8 w-16 p-1 outline-none border rounded-md text-center"/>
+          <input required type="text" className="h-8 w-20 p-1 outline-none border rounded-md text-center"/>
           -
-          <input type="text" className="h-8 w-16 p-1 outline-none border rounded-md text-center"/>
+          <input required type="text" className="h-8 w-20 p-1 outline-none border rounded-md text-center"/>
           -
-          <input type="text" className="h-8 w-16 p-1 outline-none border rounded-md text-center"/>
+          <input required type="text" className="h-8 w-20 p-1 outline-none border rounded-md text-center"/>
         </div>
         <div className="mt-8 text-right">
           <button type="submit" className="font-bold p-3 px-5 rounded-full shadow-lg border">

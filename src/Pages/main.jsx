@@ -9,12 +9,16 @@ function Main({ isLogin }) {
   })
   return (
     <div className="h-full flex justify-between items-center">
-      <button className="w-1/2 mx-4 h-40 p-10 font-bold text-2xl border shadow-lg rounded-2xl">
-        <Link to="auth">로그인/회원가입하기</Link>
+      <Link to="auth" className="w-1/2 mx-4 h-40 flex justify-center items-center font-bold text-2xl border shadow-lg rounded-2xl">
+        <button className="">
+          로그인/회원가입하기
+        </button>
+      </Link>
+      <Link to="order" className="w-1/2 mx-4 h-40 flex justify-center items-center font-bold text-2xl border shadow-lg rounded-2xl">
+      <button className="">
+        비회원 주문하기
       </button>
-      <button className="w-1/2 mx-4 h-40 p-10 font-bold text-2xl border shadow-lg rounded-2xl">
-        <Link to="order">비회원 주문하기</Link>
-      </button>
+      </Link>
     </div>
   )
 }

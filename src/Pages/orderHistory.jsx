@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { useSetRecoilState } from 'recoil'
-import { reorder } from '../store';
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { reorder, nonMemberInfo } from '../store';
 
 import { auth, db } from '../firebase.config';
 import { signOut } from 'firebase/auth';
@@ -34,6 +34,53 @@ function OrderBox({ order, isLastOrder }) {
   );
 }
 
+function NonMemberLogin() {
+  const nonMemberNameRef = useRef(null);
+  const nonMemberPwRef = useRef(null);
+  const setNonMemberInfo = useSetRecoilState(nonMemberInfo);
+
+  const onSubmitNonMemberLogin = async (e) => {
+    e.preventDefault();
+    const name = nonMemberNameRef.current.value;
+    const password = nonMemberPwRef.current.value;
+    const nonMemberDocsSnap = await getDocs(
+      query(collection(db, 'Order'), where('nonMember', '==', {name, password}), where('status', '!=', '배달완료'))
+    );
+    console.log(nonMemberDocsSnap.empty);
+    if(nonMemberDocsSnap.empty)
+      alert('주문 정보가 없습니다.');
+    else {
+      setNonMemberInfo((prev) => {
+        return { ...prev, isNonMemberLogin: true, nonMemberInfo: {name, password}}
+      })
+    }
+  };
+  return (
+    <div className="mt-16">
+      <form onSubmit={onSubmitNonMemberLogin} className="h-full flex flex-col justify-between items-center">
+        <h3 className="text-xl font-bold">주문시 제출한 이름과 비밀번호를 입력해주세요</h3>
+        <div className="flex mt-8">
+          <input
+            className="w-28 border-b-2 text-center outline-none p-1"
+            type="text"
+            ref={nonMemberNameRef}
+            placeholder="이름"
+            required
+            />
+          <input
+            className="ml-3 w-40 border-b-2 text-center outline-none p-1"
+            type="password"
+            ref={nonMemberPwRef}
+            placeholder="비밀번호"
+            required
+          />
+          <button type="submit" className="ml-3 w-16 font-bold p-1 rounded-full shadow-md">제출</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
 function OrderHistory({ isLogin, uid }) {
   const initObj = {
     menu: "",
@@ -48,6 +95,10 @@ function OrderHistory({ isLogin, uid }) {
   const [orderArr, setOrderArr] = useState([initObj]);
   const [lastOrderArr, setLastOrderArr] = useState([initObj]);
   const [isLoading, setIsLoading] = useState(false);
+
+  // 비회원
+  const nonMemberInfoObj = useRecoilValue(nonMemberInfo)
+
   const getPostArr = async () => {
     console.log('get')
     setIsLoading(false);
@@ -65,7 +116,7 @@ function OrderHistory({ isLogin, uid }) {
       setIsLoading(true);
     } else {
       const orderDocsSnap = await getDocs(
-        query(collection(db, 'Order'), where('nonMember', '==', {name: '', password: ''}), where('status', '!=', '배달완료'))
+        query(collection(db, 'Order'), where('nonMember', '==', nonMemberInfoObj.nonMemberInfo), where('status', '!=', '배달완료'))
       );
       const p = orderDocsSnap.docs.map((doc) => doc.data());
       setOrderArr(p);
@@ -74,17 +125,18 @@ function OrderHistory({ isLogin, uid }) {
   };
   useEffect(() => {
     setTimeout(() => {
-      console.log(isLogin)
       getPostArr();
     }, 1500);
-  }, [isLogin]); // isLoginLoading 필요
+  }, [isLogin, nonMemberInfoObj]); // isLoginLoading 필요
 
   // 로그아웃
   const navigate = useNavigate();
   const onClickLogout = async () => {
     await signOut(auth);
     navigate('/');
+    location.reload();
   };
+
   return (
     <div>
       <div className="flex h-32 items-center justify-center relative">
@@ -95,20 +147,25 @@ function OrderHistory({ isLogin, uid }) {
           </button>
         }
       </div>
-      <div className="mt-8">
-        <div>
-          { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
-          {isLoading ? (
-            lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
-          ): <span>주문 목록이 없습니다.</span>}
+      { !nonMemberInfoObj.isNonMemberLogin ? <NonMemberLogin /> : (
+        <div className="mt-8">
+          {nonMemberInfo.isNonMemberLogin && (<div>
+            { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
+            {isLoading ? (
+              lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
+            ): <span>주문 목록이 없습니다.</span>}
+          </div>)}
+          <div className="mt-8 pb-10">
+            <div className="flex justify-between">
+              <h2 className="py-2 text-2xl font-bold">주문목록</h2>
+              {!nonMemberInfo.isNonMemberLogin && <button onClick={() => location.reload()} className="px-4 text-md font-bold shadow-md rounded-full">비회원 주문 재검색</button>}
+            </div>
+            { isLoading ? (
+              orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
+            ) : <span>주문 목록이 없습니다.</span>}
+          </div>
         </div>
-        <div className="mt-8 pb-10">
-          <h2 className="py-2 text-2xl font-bold">주문목록</h2>
-          { isLoading ? (
-            orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
-          ) : <span>주문 목록이 없습니다.</span>}
-        </div>
-      </div>
+      )}
     </div>
   )
 }
