@@ -147,14 +147,16 @@ function OrderHistory({ isLogin, uid }) {
           </button>
         }
       </div>
-      { !nonMemberInfoObj.isNonMemberLogin ? <NonMemberLogin /> : (
+      { !(isLogin || nonMemberInfoObj.isNonMemberLogin) ? <NonMemberLogin /> : (
         <div className="mt-8">
-          {nonMemberInfo.isNonMemberLogin && (<div>
-            { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
-            {isLoading ? (
-              lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
-            ): <span>주문 목록이 없습니다.</span>}
-          </div>)}
+          { isLogin && (
+            <div>
+              { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
+              {isLoading ? (
+                lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
+              ): <span>주문 목록이 없습니다.</span>}
+            </div>
+          )}
           <div className="mt-8 pb-10">
             <div className="flex justify-between">
               <h2 className="py-2 text-2xl font-bold">주문목록</h2>
