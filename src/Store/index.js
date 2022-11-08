@@ -29,3 +29,17 @@ export const nonMemberInfo = atom({
     }
   }
 })
+
+export const orderInfoState = atom({
+  key: "orderInfo",
+  default: {
+    finalAmount: 0,
+    orderList: [{
+      menu: '',
+      style: '',
+      amount: 0,
+      orderListId: 0,
+      quantity: 0,
+    }]
+  }
+})
