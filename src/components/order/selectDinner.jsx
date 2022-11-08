@@ -31,6 +31,18 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
 
   const [orderInfo, setOrderInfo] = useRecoilState(orderInfoState);
 
+  // 순차선택 로직
+  const [isSelectedMenu, setIsSelectedMenu] = useState(false);
+  const onChangeMenuSelect = () => {
+    setIsSelectedMenu(true);
+  }
+  useEffect(() => {
+    const style = styleRef.current;
+    if(isSelectedMenu) style.disabled = false;
+    else style.disabled = true;
+  }, [isSelectedMenu]);
+
+  // 주문목록 업데이트
   const orderListIdRef = useRef(0);
   const onChangeStyleSelect = () => {
     const menu = menuRef.current;
@@ -42,9 +54,11 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
       finalAmount: prev.finalAmount + totalAmount,
       orderList: [...prev.orderList, {menu: menu.value, style: style.value, amount: totalAmount, orderListId: orderListIdRef.current, quantity: 1}]
     }));
+    setIsSelectedMenu(false);
     menu.value = '';
     style.value = '';
   };
+
 
   const onSubmitSelect = async (e) => {
     e.preventDefault();
@@ -79,6 +93,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
   useEffect(() => {
     const menu = menuRef.current;
     const style = styleRef.current;
+
     if (reorderObj.isReorder) {
       menu.value = reorderObj.menu;
       style.value = reorderObj.style;
@@ -95,7 +110,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
         {/* 디너 메뉴 */}
         <div className="my-3 flex justify-between">
           <h3 className="text-lg font-bold">디너 메뉴</h3>
-          <select ref={menuRef} name="menu" className="outline-none">
+          <select ref={menuRef} name="menu" onChange={onChangeMenuSelect} className="outline-none">
             <option value="">--디너 메뉴를 선택하세요--</option>
             <option value="valentine">Valentine dinner ($100)</option>
             <option value="french">French dinner ($130)</option>
@@ -106,7 +121,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
         {/* 디너 스타일 */}
         <div className="my-3 flex justify-between">
           <h3 className="text-lg font-bold">디너 스타일</h3>
-          <select ref={styleRef} name="style" onChange={onChangeStyleSelect} className="outline-none">
+          <select ref={styleRef} name="style" onChange={onChangeStyleSelect} className="outline-none" disabled>
             <option value="">--디너 스타일을 선택하세요--</option>
             <option value="simple">Simple</option>
             <option value="grand">Grand (+ $20)</option>
