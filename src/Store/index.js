@@ -1,11 +1,11 @@
 import { atom } from "recoil"
 
-export const reorder = atom({
+export const reorderState = atom({
   key: "reorder",
   default: {
     isReorder: false,
-    menu: "",
-    style: "",
+    reorderList: [],
+    reorderFinalAmount: 0,
     place: "",
   },
 });

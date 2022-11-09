@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { reorder } from '../../store';
+import { reorderState } from '../../store';
 
 import { db } from '../../firebase.config';
 import { updateDoc, doc } from 'firebase/firestore';
@@ -51,13 +51,13 @@ function SubmitInfo({ setProgress, orderId }) {
   };
 
   const placeRef = useRef(null);
-  const reorderObj = useRecoilValue(reorder);
+  const reorder = useRecoilValue(reorderState);
   useEffect(() => {
     const place = placeRef.current;
-    if (reorderObj.isReorder) {
-      place.value = reorderObj.place;
+    if (reorder.isReorder) {
+      place.value = reorder.place;
       setObj((prev) => {
-        return { ...prev, place: reorderObj.place};
+        return { ...prev, place: reorder.place};
       });
     }
   }, [])

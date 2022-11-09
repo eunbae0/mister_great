@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { reorder, nonMemberInfo } from '../store';
+import { reorderState, nonMemberInfo } from '../store';
 
 import { auth, db } from '../firebase.config';
 import { signOut } from 'firebase/auth';
@@ -9,12 +9,12 @@ import { getDocs, query, collection, where } from 'firebase/firestore';
 
 function OrderBox({ order, isLastOrder }) {
   const navigate = useNavigate();
-  const setTodoList = useSetRecoilState(reorder);
+  const setReorderList = useSetRecoilState(reorderState);
   const onClickReOrderBtn = () => {
-    const ok = confirm(`${order.menu}디너, ${order.style}스타일, 장소: ${order.place} (으)로 주문을 진행하시겠습니까?`);
+    const ok = confirm(`주문 장소: ${order.place} (으)로 주문을 진행하시겠습니까?`);
     if (ok) {
-      setTodoList((prev) => {
-        return { ...prev, isReorder: true, menu: order.menu, style: order.style, place: order.place}
+      setReorderList((prev) => {
+        return { ...prev, isReorder: true, reorderList: order.orderList, reorderFinalAmount: order.finalAmount, place: order.place}
       })
       navigate('/order');
     }
@@ -22,14 +22,25 @@ function OrderBox({ order, isLastOrder }) {
   return (
     <div className="my-2 p-3 px-6 flex justify-between items-center shadow-lg rounded-lg">
       <div className="flex flex-col justify-between">
-        <span>디너: {order.menu}</span>
-        <span>디너 스타일: {order.style}</span>
-        <span>장소: {order.place}</span>
+        <div className="flex flex-col">
+          {order.orderList.map(order => 
+            <div key={order.orderListId}>
+              <span>메뉴: {order.menu}</span>
+              <span className="ml-2">스타일: {order.style}</span>
+              <span className="ml-2">가격: {order.amount}</span>
+              <span className="ml-2">주문 수량: {order.quantity}</span>
+            </div>
+          )}
+        </div>
       </div>
-      <div>
+
+        <div className="flex flex-col w-32">
+          <span className="mr-4">total: ${order.finalAmount}</span>
+          <span className="mr-4">장소: {order.place}</span>
+        </div>
         <span className="mr-4">주문상태: {order.status}</span>
         {isLastOrder && <button className="shadow-md rounded-md border p-2" onClick={onClickReOrderBtn}>이대로 주문하기</button>}
-      </div>
+
     </div>
   );
 }
@@ -83,12 +94,15 @@ function NonMemberLogin() {
 
 function OrderHistory({ isLogin, uid }) {
   const initObj = {
-    menu: "",
     nonMember: {},
     oid: "",
     place: "",
     status: "",
-    style: "",
+    orderList: [
+      {style: "",
+      menu: "",}
+    ],
+    finalAmount: 0,
     time: "",
     uid: "",
   }
@@ -160,7 +174,7 @@ function OrderHistory({ isLogin, uid }) {
           <div className="mt-8 pb-10">
             <div className="flex justify-between">
               <h2 className="py-2 text-2xl font-bold">주문목록</h2>
-              {!nonMemberInfo.isNonMemberLogin && <button onClick={() => location.reload()} className="px-4 text-md font-bold shadow-md rounded-full">비회원 주문 재검색</button>}
+              {!(isLogin || nonMemberInfoObj.isNonMemberLogin) && <button onClick={() => location.reload()} className="px-4 text-md font-bold shadow-md rounded-full">비회원 주문 재검색</button>}
             </div>
             { isLoading ? (
               orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)

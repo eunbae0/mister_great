@@ -1,18 +1,24 @@
-import { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { orderInfoState } from '../../store';
 import { useNavigate } from "react-router-dom";
 
 function Payment() {
   const navigate = useNavigate();
-  // useState
-  const onChangePayment = () => {
-    
-  };
+  const setorderInfo = useSetRecoilState(orderInfoState);
 
   const onSubmitPayment = (e) => {
     e.preventDefault();
+    setorderInfo({finalAmount: 0,
+      orderList: [{
+        menu: '',
+        style: '',
+        amount: 0,
+        orderListId: 0,
+        quantity: 0,
+      }]})
     alert('결제가 완료되었습니다. 주문이 진행됩니다.');
     navigate('/orderHistory');
-    // 이 함수는 작성안하셔도 됩니다!
+    
   };
 
   return (

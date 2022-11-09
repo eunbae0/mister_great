@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { reorder, orderInfoState } from '../../store';
+import { reorderState, orderInfoState } from '../../store';
 
 import { db } from '../../firebase.config';
 import { setDoc, doc } from 'firebase/firestore';
@@ -48,12 +48,25 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
     const menu = menuRef.current;
     const style = styleRef.current;
     const totalAmount = totalAmountbyMenuAndStyle(menu.value, style.value);
-    orderListIdRef.current += 1;
-    setOrderInfo((prev) => ({
-      ...prev,
-      finalAmount: prev.finalAmount + totalAmount,
-      orderList: [...prev.orderList, {menu: menu.value, style: style.value, amount: totalAmount, orderListId: orderListIdRef.current, quantity: 1}]
-    }));
+
+    const sameOrder = orderInfo.orderList.filter(order => order.menu === menu.value && order.style === style.value)
+    if(sameOrder.length === 0) {
+      orderListIdRef.current += 1;
+      setOrderInfo((prev) => ({
+        ...prev,
+        finalAmount: prev.finalAmount + totalAmount,
+        orderList: [...prev.orderList, {menu: menu.value, style: style.value, amount: totalAmount, orderListId: orderListIdRef.current, quantity: 1}]
+      }));
+    } else {
+      const newOrderList = {...sameOrder[0], quantity: parseInt(sameOrder[0].quantity) + 1, amount: sameOrder[0].amount + totalAmount}
+      const orderListExcept = orderInfo.orderList.filter(order => order.orderListId !== sameOrder[0].orderListId);
+      
+      setOrderInfo((prev) => ({
+        ...prev, 
+        finalAmount: prev.finalAmount + totalAmount,
+        orderList: [...orderListExcept, newOrderList]
+      }))
+    }
     setIsSelectedMenu(false);
     menu.value = '';
     style.value = '';
@@ -62,12 +75,18 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
 
   const onSubmitSelect = async (e) => {
     e.preventDefault();
+    if(orderInfo.finalAmount === 0) {
+      alert('주문을 진행해주세요')
+      return;
+    }
     const oid = v4();
     setOrderId(oid);
+    const submitOrderInfo = orderInfo.orderList.filter((list) => list.orderListId > 0)
     if(isLogin) {
       await setDoc(doc(db, "Order", oid), {
         oid,
-        orderList: orderInfo.orderList,
+        orderList: submitOrderInfo,
+        finalAmount: orderInfo.finalAmount,
         uid,
         nonMember: {},
       });
@@ -76,7 +95,8 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
       const password = passwordRef.current.value;
       await setDoc(doc(db, "Order", oid), {
         oid,
-        orderList: orderInfo.orderList,
+        orderList: submitOrderInfo,
+        finalAmount: orderInfo.finalAmount,
         uid: '',
         nonMember: {
           name,
@@ -89,17 +109,14 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
   }
 
   // 재주문 로직
-  const reorderObj = useRecoilValue(reorder);
+  const reorder = useRecoilValue(reorderState);
   useEffect(() => {
-    const menu = menuRef.current;
-    const style = styleRef.current;
-
-    if (reorderObj.isReorder) {
-      menu.value = reorderObj.menu;
-      style.value = reorderObj.style;
-      setOrderInfo((prev) => {
-        return { ...prev, dinnerMenu: reorderObj.menu, dinnerStyle: reorderObj.style};
-      }); // 변경하기
+    if (reorder.isReorder) {
+      setOrderInfo((prev) => ({
+        ...prev,
+        finalAmount: reorder.reorderFinalAmount,
+        orderList: reorder.reorderList,
+      }));
     }
   }, [])
   
@@ -132,8 +149,8 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
           <div className="my-8">
             <h3 className="text-xl font-bold text-center">비회원 주문을 위해 이름과 비밀번호를 입력해주세요</h3>
             <div className="mt-4 flex justify-end items-center">
-              <input type="text" placeholder="이름" ref={nameRef} className="w-28 border-b-2 text-center outline-none"/>
-              <input type="password" placeholder="비밀번호" ref={passwordRef} className="ml-3 border-b-2 text-center outline-none"/>
+              <input type="text" placeholder="이름" ref={nameRef} className="w-28 border-b-2 text-center outline-none" required/>
+              <input type="password" placeholder="비밀번호" ref={passwordRef} className="ml-3 border-b-2 text-center outline-none" required/>
             </div>
           </div>
         )}
