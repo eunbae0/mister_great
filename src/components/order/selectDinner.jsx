@@ -119,7 +119,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
       }));
     }
   }, [])
-  
+
 
   return (
     <div className="w-full my-8 px-3">

@@ -9,7 +9,7 @@ import {
 import { auth } from "../firebase.config";
 import { useEffect } from 'react';
 
-function Auth({isLogin}) {
+function Auth({isLogin, isEmployee}) {
   const navigate = useNavigate(); // 로그인/아웃 완료시 메인페이지로 이동하기위한 훅 선언
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,7 +40,11 @@ function Auth({isLogin}) {
       }
       return err.message.replace("Firebase: Error ", "");
     }
-    navigate('/auth');
+    if(!isEmployee) {
+      navigate('/auth');
+    } else {
+      navigate('/management');
+    }
   }
 
   useEffect(() => {
@@ -74,10 +78,10 @@ function Auth({isLogin}) {
           >
             로그인
           </button>
-          <p>
+          {!isEmployee && (<p>
             <span>아직 회원이 아니신가요?</span>
             <Link to={'../register'} className="ml-2 text-red-500 font-bold">회원가입</Link>
-          </p>
+          </p>)}
         </form>
       </div>
     </div>

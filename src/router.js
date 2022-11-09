@@ -8,6 +8,7 @@ import Auth from "./Pages/auth";
 import Order from "./Pages/order";
 import OrderHistory from "./Pages/orderHistory";
 import Register from "./Pages/register";
+import Management from "./Pages/management";
 
 const Router = () => {
   // 새로고침시 유저 로그인 여부, 상태 불러오기
@@ -25,10 +26,12 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main isLogin={isLogin} />} />
-        <Route path="/auth" element={<Auth isLogin={isLogin} />} />
+        <Route path="/auth" element={<Auth isLogin={isLogin} isEmployee={false} />} />
+        <Route path="/auth/employee" element={<Auth isLogin={isLogin} isEmployee={true} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/order" element={<Order isLogin={isLogin} uid={uid} />} />
         <Route path="/orderHistory" element={<OrderHistory isLogin={isLogin} uid={uid} />} />
+        <Route path="/management" element={<Management />} />
       </Routes>
     </BrowserRouter>
   );

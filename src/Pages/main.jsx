@@ -8,7 +8,8 @@ function Main({ isLogin }) {
       navigate('/orderHistory');
   })
   return (
-    <div className="h-full flex justify-between items-center">
+    <div className="h-full flex justify-between items-center relative">
+      <Link to="auth/employee" className="absolute top-4 right-6 font-bold text-sm"><button>직원 로그인</button></Link>
       <Link to="auth" className="w-1/2 mx-4 h-40 flex justify-center items-center font-bold text-2xl border shadow-lg rounded-2xl">
         <button className="">
           로그인/회원가입하기
