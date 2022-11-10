@@ -52,19 +52,26 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
     const sameOrder = orderInfo.orderList.filter(order => order.menu === menu.value && order.style === style.value)
     if(sameOrder.length === 0) {
       orderListIdRef.current += 1;
+      const newOrder = {
+        menu: menu.value, 
+        style: style.value, 
+        amount: totalAmount, 
+        orderListId: orderListIdRef.current, 
+        quantity: 1
+      };
       setOrderInfo((prev) => ({
         ...prev,
         finalAmount: prev.finalAmount + totalAmount,
-        orderList: [...prev.orderList, {menu: menu.value, style: style.value, amount: totalAmount, orderListId: orderListIdRef.current, quantity: 1}]
+        orderList: [...prev.orderList, newOrder]
       }));
     } else {
-      const newOrderList = {...sameOrder[0], quantity: parseInt(sameOrder[0].quantity) + 1, amount: sameOrder[0].amount + totalAmount}
+      const newSameOrder = {...sameOrder[0], quantity: parseInt(sameOrder[0].quantity) + 1, amount: sameOrder[0].amount + totalAmount}
       const orderListExcept = orderInfo.orderList.filter(order => order.orderListId !== sameOrder[0].orderListId);
       
       setOrderInfo((prev) => ({
         ...prev, 
         finalAmount: prev.finalAmount + totalAmount,
-        orderList: [...orderListExcept, newOrderList]
+        orderList: [...orderListExcept, newSameOrder]
       }))
     }
     setIsSelectedMenu(false);

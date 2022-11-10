@@ -113,8 +113,7 @@ function OrderHistory({ isLogin, uid }) {
   // 비회원
   const nonMemberInfoObj = useRecoilValue(nonMemberInfo)
 
-  const getPostArr = async () => {
-    console.log('get')
+  const getOrderArr = async () => {
     setIsLoading(false);
     if (isLogin) {
       const orderDocsSnap = await getDocs(
@@ -139,7 +138,7 @@ function OrderHistory({ isLogin, uid }) {
   };
   useEffect(() => {
     setTimeout(() => {
-      getPostArr();
+      getOrderArr();
     }, 1500);
   }, [isLogin, nonMemberInfoObj]); // isLoginLoading 필요
 
