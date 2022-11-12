@@ -33,7 +33,7 @@ function progressChanger (progress, setProgress, orderId, setOrderId, isLogin, u
   }
 }
 
-function OrderSheetBox({order, orderInfo, setOrderInfo, progress}) {
+function OrderBox({order, orderInfo, setOrderInfo, progress}) {
   const onChangeOrderQuantity = (e, orderListId) => {
     const num = e.target.value;
     const orderList = orderInfo.orderList.filter(order => order.orderListId === orderListId)[0];
@@ -59,7 +59,7 @@ function OrderSheetBox({order, orderInfo, setOrderInfo, progress}) {
   }
 
   return (
-    <div className="flex">
+    <div className="flex my-1">
       <span>메뉴: {order.menu}</span>
       <span className="ml-2">스타일: {order.style}</span>
       <span className="ml-2">가격: {order.amount}</span>
@@ -82,14 +82,14 @@ function Order({ isLogin, uid }) {
       </div>
       <ProgressBar progress={progress} />
       {progressChanger(progress, setProgress, orderId, setOrderId, isLogin, uid)}
-      <h2 className="font-bold text-lg">주문서</h2>
+      <h2 className="font-bold text-lg mb-4">주문서</h2>
       {orderInfo.orderList
         .filter((list) => list.orderListId > 0)
         .sort((a, b) => a.orderListId - b.orderListId)
         .map(order => (
-        <OrderSheetBox key={order.orderListId} order={order} orderInfo={orderInfo} setOrderInfo={setOrderInfo} progress={progress}/>
+        <OrderBox key={order.orderListId} order={order} orderInfo={orderInfo} setOrderInfo={setOrderInfo} progress={progress}/>
       ))}
-      <div className="text-lg font-bold">최종 결제 금액: ${orderInfo.finalAmount}</div>
+      <div className="text-lg font-bold mt-4">최종 결제 금액: ${orderInfo.finalAmount}</div>
     </div>
   )
 }
