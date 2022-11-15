@@ -12,13 +12,13 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "requireConfigFile" : "false"
+        // "requireConfigFile" : "false"
     },
     "plugins": [
         "react"
     ],
     "parser": "@babel/eslint-parser",
-    "babelOptions": { "configFile": "./.babelrc", },
+    // "babelOptions": { "configFile": "./.babelrc", },
     "rules": {
         "react/react-in-jsx-scope": "off",
         "react/prop-types": "off",
