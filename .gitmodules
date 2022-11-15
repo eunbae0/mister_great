@@ -1,0 +1,4 @@
+[submodule "mister_great"]
+    path = mister_great
+    url = git@github.com:eunbae11/mister_great.git
+    branch = main
