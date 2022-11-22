@@ -80,19 +80,19 @@ function StockList() {
   const ingredientQuantityRef = useRef(null);
   const onSubmitAddStock = async (e) => {
     e.preventDefault();
-    const name = ingredientNameRef.current.value;
-    const quantity = ingredientQuantityRef.current.value;
+    const name = ingredientNameRef.current;
+    const quantity = ingredientQuantityRef.current;
     const iid = v4();
     await updateDoc(doc(db, 'Stock', 'Ingredient'), {
       ingredient: arrayUnion({
-        name, 
-        quantity,
+        name: name.value, 
+        quantity: quantity.value,
         iid,
       })
     });
     setIsUpdateComplete(prev => !prev);
-    name = '';
-    quantity = '';
+    name.value = '';
+    quantity.value = '';
   };
 
   return (
