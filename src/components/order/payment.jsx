@@ -1,5 +1,5 @@
 import { useSetRecoilState } from 'recoil';
-import { orderInfoState } from '../../store';
+import { orderInfoState } from '../../store/index';
 import { useNavigate } from "react-router-dom";
 
 function Payment() {

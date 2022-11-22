@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { reorderState, nonMemberInfo } from '../store';
+import { reorderState, nonMemberInfo } from '../store/index';
 
 import { auth, db } from '../firebase.config';
 import { signOut } from 'firebase/auth';
