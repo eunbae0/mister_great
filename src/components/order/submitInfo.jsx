@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { reorderState } from '../../store/index';
+import { reorderState } from '../../Store/index';
 
 import { db } from '../../firebase.config';
 import { updateDoc, doc } from 'firebase/firestore';

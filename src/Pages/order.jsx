@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { orderInfoState } from '../store/index';
+import { orderInfoState } from '../Store/index';
 
 import ProgressBar from '../components/order/progressBar'
 import SelectDinner from '../components/order/selectDinner';
