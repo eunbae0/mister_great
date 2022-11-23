@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { reorderState, orderInfoState } from '../../Store/index';
 
@@ -126,50 +126,39 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
       }));
     }
   }, [])
-
   // 음성인식 로직
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState();
-  // 녹음 데이터 저장 배열
-  const audioArray = [];
+  const [audioUrl, setAudioUrl] = useState();
   const onClickAudioBtn = async (event) => {
-      if(!isRecording){
-        // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
-        const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
-        const mediaRecorder = new MediaRecorder(mediaStream)
-        // MediaRecorder 생성
-        setMediaRecorder(mediaRecorder);
-
-        // 이벤트핸들러: 녹음 데이터 취득 처리
-        mediaRecorder.ondataavailable = (event)=>{
-          console.log(event.data)
-            audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
-        }
-
-        // 녹음 시작
-        mediaRecorder.start();
-        setIsRecording(true);
-      } else {
-        // 녹음 종료
-        mediaRecorder.stop();
-        mediaRecorder.ondataavailable = (e) => {
-          console.log(e.data);
-        }
-        // 이벤트핸들러: 녹음 종료 처리 & 재생하기
-        mediaRecorder.onstop = (event)=>{
-            
-          // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-          const blob = new Blob(audioArray, {"type": "audio/ogg codecs=opus"});
-          audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
-          
-          // Blob 데이터에 접근할 수 있는 주소를 생성한다.
-          const blobURL = window.URL.createObjectURL(blob);
-          console.log(blobURL);
+    if(!isRecording){
+      setAudioUrl(null);
+      // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
+      const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+      const mediaRecorder = new MediaRecorder(mediaStream)
+      // MediaRecorder 생성
+      setMediaRecorder(mediaRecorder);
+      // 녹음 시작
+      mediaRecorder.start();
+      setIsRecording(true);
+    } else {
+      // 녹음 종료
+      mediaRecorder.stop();
+      mediaRecorder.ondataavailable = (e) => {
+        console.log(e.data);
+        setAudioUrl(e.data);
       }
-        setIsRecording(false);
-      }
+      setIsRecording(false);
     }
-
+  }
+  const onClickSubmitBtn = useCallback(() => {
+    if (audioUrl) {
+      console.log(URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
+    } else {alert('먼저 음성인식을 시작해 주세요')}
+    // File 생성자를 사용해 파일로 변환
+    const sound = new File([audioUrl], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
+    console.log(sound); // File 정보 출력
+  }, [audioUrl]);
   return (
     <div className="w-full my-8 px-3">
       <form action="submit" onSubmit={onSubmitSelect}>
@@ -184,6 +173,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
             <option value="champagne">Champagne Feast dinner ($250)</option>
           </select>
           <button className="absolute top-0 -right-40 p-2 shadow rounded-lg" onClick={onClickAudioBtn}>음성인식 시작/종료</button>
+          <button className="absolute top-16 -right-20" onClick={onClickSubmitBtn}>제출</button>
         </div>
         {/* 디너 스타일 */}
         <div className="my-3 flex justify-between">
