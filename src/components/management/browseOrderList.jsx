@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../../firebase.config';
 import { doc, getDocs, updateDoc, query, collection, where } from 'firebase/firestore';
 
+import LoadingSpinner from '../common/loadingSpinner';
 
 function OrderBox({ order, isComplete, setIsUpdateComplete }) {
   const onChangeOrderStatus = async (e) => {
@@ -26,7 +27,7 @@ function OrderBox({ order, isComplete, setIsUpdateComplete }) {
           )}
         </div>
       </div>
-      <div className="flex flex-col w-32">
+      <div className="flex flex-col w-48">
         <span className="mr-4">total: ${order.finalAmount}</span>
         <span className="mr-4">장소: {order.place}</span>
       </div>
@@ -89,11 +90,11 @@ function BrowseOrderList() {
     <div>
       <div className="my-8">
         <h1 className="font-bold text-2xl">진행중인 주문</h1>
-        {isLoading && orderArr.map(order => <OrderBox key={order.oid} order={order} isComplete={false} setIsUpdateComplete={setIsUpdateComplete} />)}
+        {isLoading ? orderArr.map(order => <OrderBox key={order.oid} order={order} isComplete={false} setIsUpdateComplete={setIsUpdateComplete} />) : <LoadingSpinner />}
       </div>
       <div className="my-8">
         <h1 className="font-bold text-2xl">완료된 주문</h1>
-        {isLoading && lastOrderArr.map(order => <OrderBox key={order.oid} order={order} isComplete={true} setIsUpdateComplete={setIsUpdateComplete} />)}
+        {isLoading ? lastOrderArr.map(order => <OrderBox key={order.oid} order={order} isComplete={true} setIsUpdateComplete={setIsUpdateComplete} />) : <LoadingSpinner />}
       </div>
     </div>
   )

@@ -7,6 +7,8 @@ import { auth, db } from '../firebase.config';
 import { signOut } from 'firebase/auth';
 import { getDocs, query, collection, where } from 'firebase/firestore';
 
+import LoadingSpinner from '../components/common/loadingSpinner';
+
 function OrderBox({ order, isLastOrder }) {
   const navigate = useNavigate();
   const setReorderList = useSetRecoilState(reorderState);
@@ -34,7 +36,7 @@ function OrderBox({ order, isLastOrder }) {
         </div>
       </div>
 
-        <div className="flex flex-col w-32">
+        <div className="flex flex-col w-48">
           <span className="mr-4">total: ${order.finalAmount}</span>
           <span className="mr-4">장소: {order.place}</span>
         </div>
@@ -167,7 +169,7 @@ function OrderHistory({ isLogin, uid }) {
               { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
               {isLoading ? (
                 lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
-              ): <span>주문 목록이 없습니다.</span>}
+              ): <LoadingSpinner />}
             </div>
           )}
           <div className="mt-8 pb-10">
@@ -177,7 +179,7 @@ function OrderHistory({ isLogin, uid }) {
             </div>
             { isLoading ? (
               orderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={false}/>)
-            ) : <span>주문 목록이 없습니다.</span>}
+            ) : <LoadingSpinner />}
           </div>
         </div>
       )}
