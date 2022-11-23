@@ -3,19 +3,20 @@ import { db } from '../../firebase.config';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { v4 } from 'uuid';
 
-function StockBox({ iid, name, quantity, setIsUpdateComplete }) {
-  const onChangeStockQuantity = async (e, iid) => {
-    // const ingredientDocRef = doc(db, "Stock", "Ingredient");
-    // const quantity = e.target.value;
-    // const arrayName = `ingredient[${iid}]`;
-    // // To update age and favorite color:
-    // await updateDoc(ingredientDocRef, {
-    //     `${arrayName}`: {
-    //       iid,
-    //       name,
-    //       quantity,
-    //     }
-    // });
+function StockBox({ ingredientArr, iid, name, quantity, setIsUpdateComplete }) {
+  const onChangeStockQuantity = async (e) => {
+    const quantity = e.target.value;
+        
+    const index = ingredientArr.findIndex(obj => {
+      return obj.name === name;
+    });
+
+    if (index !== -1) {
+      ingredientArr[index].quantity = quantity;
+    }
+    await updateDoc(doc(db, 'Stock', 'Ingredient'), {
+      ingredient: [...ingredientArr]
+    });
     setIsUpdateComplete(prev => !prev);
   };
   
@@ -38,7 +39,7 @@ function StockBox({ iid, name, quantity, setIsUpdateComplete }) {
           type="number"
           min="1"
           value={quantity}
-          onChange={e => onChangeStockQuantity(e, iid)}
+          onChange={onChangeStockQuantity}
           className="text-center w-1/3 font-bold outline-none"
         />
         <button onClick={onClickDeleteBtn} className="absolute top-0 right-1">X</button>
@@ -123,10 +124,10 @@ function StockList() {
           <span className="w-2/3 text-center font-bold">수량</span>
         </div>
         <ul>
-          {ingredientArr.map(ing => <StockBox key={ing.iid} iid={ing.iid} name={ing.name} quantity={ing.quantity} setIsUpdateComplete={setIsUpdateComplete} />)}
+          {ingredientArr.map(ing => <StockBox ingredientArr={ingredientArr} key={ing.iid} iid={ing.iid} name={ing.name} quantity={ing.quantity} setIsUpdateComplete={setIsUpdateComplete} />)}
         </ul>
         <form action="submit" onSubmit={onSubmitAddStock} className="flex w-full justify-between my-3 relative border-t-2 pt-2">
-          <input type="text" placeholder="품명" ref={ingredientNameRef} className="w-1/3 text-center outline-none border-r-2"></input>
+          <input type="text" placeholder="품명" ref={ingredientNameRef} className="w-1/3 text-center outline-none border-r-2" required></input>
           <div className="w-2/3 flex items-center justify-center relative">
             <input
               type="number"
@@ -134,6 +135,7 @@ function StockList() {
               min="1"
               ref={ingredientQuantityRef}
               className="text-center w-1/3 font-bold outline-none"
+              required
             />
             <button type="submit" className="absolute top-0 right-1">+</button>
           </div>
