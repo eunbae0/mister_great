@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase.config.js';
 
-import Main from "./Pages/main";
+import Main from "./Pages/common/main";
 import Auth from "./Pages/auth";
 import Order from "./Pages/order";
 import OrderHistory from "./Pages/orderHistory";
