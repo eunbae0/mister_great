@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { reorderState, nonMemberInfo } from '../Store/index';
+import { reorderState, nonMemberInfo } from '../../Store/index';
 
-import { auth, db } from '../firebase.config';
+import { auth, db } from '../../firebase.config';
 import { signOut } from 'firebase/auth';
 import { getDocs, query, collection, where } from 'firebase/firestore';
 
-import LoadingSpinner from '../components/common/loadingSpinner';
+import LoadingSpinner from '../../components/common/loadingSpinner';
 
 function OrderBox({ order, isLastOrder }) {
   const navigate = useNavigate();

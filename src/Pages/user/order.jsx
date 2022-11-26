@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { orderInfoState } from '../Store/index';
+import { orderInfoState } from '../../Store/index';
 
-import ProgressBar from '../components/order/progressBar'
-import SelectDinner from '../components/order/selectDinner';
-import SubmitInfo from '../components/order/submitInfo';
-import Payment from '../components/order/payment';
+import ProgressBar from '../../components/order/progressBar'
+import SelectDinner from '../../components/order/selectDinner';
+import SubmitInfo from '../../components/order/submitInfo';
+import Payment from '../../components/order/payment';
 
 function progressInfoChanger (progress) {
   switch (progress) {

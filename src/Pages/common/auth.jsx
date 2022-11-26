@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { 
     signInWithEmailAndPassword, //로그인
 } from "firebase/auth";
-import { auth } from "../firebase.config";
+import { auth } from "../../firebase.config";
 import { useEffect } from 'react';
 
 function Auth({isLogin, isEmployee}) {

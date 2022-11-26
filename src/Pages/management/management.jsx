@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import StockList from '../components/management/stockList';
-import BrowseOrderList from '../components/management/browseOrderList';
+import StockList from '../../components/management/stockList';
+import BrowseOrderList from '../../components/management/browseOrderList';
 
 function Management() {
   const [managementState, setManagementState] = useState('stocklist');

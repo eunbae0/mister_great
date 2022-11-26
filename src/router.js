@@ -4,11 +4,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase.config.js';
 
 import Main from "./Pages/common/main";
-import Auth from "./Pages/auth";
-import Order from "./Pages/order";
-import OrderHistory from "./Pages/orderHistory";
-import Register from "./Pages/register";
-import Management from "./Pages/management";
+import Auth from "./Pages/common/auth";
+import Order from "./Pages/user/order";
+import OrderHistory from "./Pages/user/orderHistory";
+import Register from "./Pages/user/register";
+import Management from "./Pages/management/management";
 
 const Router = () => {
   // 새로고침시 유저 로그인 여부, 상태 불러오기
