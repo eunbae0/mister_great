@@ -160,7 +160,43 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
     console.log(sound); // File 정보 출력
   }, [audioUrl]);
   return (
-    <div className="w-full my-8 px-3">
+    <div className="w-full my-8 px-3 relative">
+      <div className="absolute -top-36 -translate-x-[105%] left-0 flex flex-col items-center">
+        <h3 className="font-bold text-2xl mb-4">메뉴 가이드</h3>
+        <div className="text-center">
+          <div className="font-bold mb-1">Valentine dinner  $100</div>
+          <div>작은 하트 모양과 큐피드가 장식된</div>
+          <div>접시, 냅킨, 와인, 스테이크가 제공됩니다</div>
+        </div>
+        <div className="text-center">
+          <div className="font-bold mt-4 mb-1">French dinner  $130</div>
+          <div>커피 한잔, 와인 한잔, 샐러드, 스테이크가 제공됩니다</div>
+        </div>
+        <div className="text-center">
+          <div className="font-bold mt-4 mb-1">English dinner  $130</div>
+          <div>에그 스크램블, 베이컨, 빵, 스테이크가 제공됩니다</div>
+        </div>
+        <div className="text-center">
+          <div className="font-bold mt-4 mb-1">Champagne Feast dinner  $250</div>
+          <div>기본 2인 식사</div>
+          <div>샴페인 한병, 4개의 바게트빵</div>
+          <div>커피 한 포트, 와인, 스테이크가 제공됩니다</div>
+        </div>
+        <h3 className="font-bold text-2xl mt-7 mb-4">스타일 가이드</h3>
+        <div className="text-center">
+          <div className="font-bold mb-1">Simple dinner  +$0</div>
+          <div>상자 접시에 냅킨이 플라스틱 쟁반에 제공됩니다</div>
+        </div>
+        <div className="text-center">
+          <div className="font-bold mt-4 mb-1">Grand dinner  +$20</div>
+          <div>도자기 접시와 컵, 흰색 면 냅킨이 나무 쟁반에 제공됩니다</div>
+        </div>
+        <div className="text-center">
+          <div className="font-bold mt-4 mb-1">Deluxe dinner  +$40</div>
+          <div>은 쟁반에 꽃들이 있는 작은 꽃병,</div> 
+          <div>도자기 접시와 린넨 냅킨이 제공됩니다</div>
+        </div>
+      </div>
       <form action="submit" onSubmit={onSubmitSelect}>
         {/* 디너 메뉴 */}
         <div className="my-3 flex justify-between relative">
@@ -173,7 +209,7 @@ function SelectDinner({ setProgress, setOrderId, isLogin, uid }) {
             <option value="champagne">Champagne Feast dinner ($250)</option>
           </select>
           <button className="absolute top-0 -right-40 p-2 shadow rounded-lg" onClick={onClickAudioBtn}>음성인식 시작/종료</button>
-          <button className="absolute top-16 -right-20" onClick={onClickSubmitBtn}>제출</button>
+          {/* <button className="absolute top-16 -right-20" onClick={onClickSubmitBtn}>제출</button> */}
         </div>
         {/* 디너 스타일 */}
         <div className="my-3 flex justify-between">
