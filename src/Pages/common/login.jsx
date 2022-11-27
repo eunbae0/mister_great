@@ -56,6 +56,9 @@ function Login({isLogin, isEmployee}) {
     <div className="w-full h-full flex justify-center items-center">
       <div className="h-96 w-1/2 bg-gray-100 py-20 rounded-md">
         <form onSubmit={onSubmit} className="h-full flex flex-col justify-between items-center">
+          {isEmployee && (
+            <h2 className="font-bold text-3xl">직원 로그인</h2>
+          )}
           <input
             className="w-2/3 outline-none p-2"
             onChange={onChange}
