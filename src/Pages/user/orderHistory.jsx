@@ -178,7 +178,7 @@ function OrderHistory({ isLogin, uid }) {
             <div>
               { isLogin && <h2 className="py-2 text-2xl font-bold">과거 주문목록</h2> }
               { isLoading ? (
-                orderArr.length === 0 ? <span>주문 내역이 존재하지 않습니다</span> :
+                lastOrderArr.length === 0 ? <span>주문 내역이 존재하지 않습니다</span> :
                 lastOrderArr.map((order) => <OrderBox key={order.oid} order={order} isLastOrder={true}/>)
               ): <LoadingSpinner />}
             </div>

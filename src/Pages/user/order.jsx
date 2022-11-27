@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { orderInfoState } from '../../Store/index';
 
-import ProgressBar from '../../components/order/progressBar'
+import ProgressBar from '../../components/common/progressBar'
 import SelectDinner from '../../components/order/selectDinner';
 import SubmitInfo from '../../components/order/submitInfo';
 import Payment from '../../components/order/payment';

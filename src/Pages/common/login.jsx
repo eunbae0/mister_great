@@ -9,7 +9,7 @@ import {
 import { auth } from "../../firebase.config";
 import { useEffect } from 'react';
 
-function Auth({isLogin, isEmployee}) {
+function Login({isLogin, isEmployee}) {
   const navigate = useNavigate(); // 로그인/아웃 완료시 메인페이지로 이동하기위한 훅 선언
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -88,4 +88,4 @@ function Auth({isLogin, isEmployee}) {
   )
 }
 
-export default Auth;
+export default Login;

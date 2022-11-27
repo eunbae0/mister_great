@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-function Auth() {
+function Register() {
   const inputEmailRef = useRef(null);
   const inputPasswordRef = useRef(null);
   const inputNameRef = useRef(null);
@@ -104,4 +104,4 @@ function Auth() {
   )
 }
 
-export default Auth;
+export default Register;

@@ -4,7 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase.config.js';
 
 import Main from "./Pages/common/main";
-import Auth from "./Pages/common/auth";
+import Login from "./Pages/common/login";
 import Order from "./Pages/user/order";
 import OrderHistory from "./Pages/user/orderHistory";
 import Register from "./Pages/user/register";
@@ -26,8 +26,8 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main isLogin={isLogin} />} />
-        <Route path="/auth" element={<Auth isLogin={isLogin} isEmployee={false} />} />
-        <Route path="/auth/employee" element={<Auth isLogin={isLogin} isEmployee={true} />} />
+        <Route path="/auth" element={<Login isLogin={isLogin} isEmployee={false} />} />
+        <Route path="/auth/employee" element={<Login isLogin={isLogin} isEmployee={true} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/order" element={<Order isLogin={isLogin} uid={uid} />} />
         <Route path="/orderHistory" element={<OrderHistory isLogin={isLogin} uid={uid} />} />
