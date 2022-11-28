@@ -7,7 +7,7 @@ import SelectDinner from '../../components/order/selectDinner';
 import SubmitInfo from '../../components/order/submitInfo';
 import Payment from '../../components/order/payment';
 
-function createOrder (progress) {
+function progressInfoChanger (progress) {
   switch (progress) {
     case 0:
       return '디너 종류와 스타일 선택';
@@ -20,7 +20,7 @@ function createOrder (progress) {
   }
 }
 
-function progressChanger (progress, setProgress, orderId, setOrderId, isLogin, uid) {
+function createOrder (progress, setProgress, orderId, setOrderId, isLogin, uid) {
   switch (progress) {
     case 0:
       return <SelectDinner setProgress={setProgress} setOrderId={setOrderId} isLogin={isLogin} uid={uid} />;
@@ -78,10 +78,10 @@ function Order({ isLogin, uid }) {
   return (
     <div className="h-2/3 w-2/3 mx-auto my-0 flex flex-col items-center justify-center">
       <div className="my-5 p-3 text-2xl text-center font-bold">
-        {createOrder(progress)}
+        {progressInfoChanger(progress)}
       </div>
       <ProgressBar progress={progress} />
-      {progressChanger(progress, setProgress, orderId, setOrderId, isLogin, uid)}
+      {createOrder(progress, setProgress, orderId, setOrderId, isLogin, uid)}
       <h2 className="font-bold text-lg mb-4">주문서</h2>
       {orderInfo.orderList
         .filter((list) => list.orderListId > 0)
