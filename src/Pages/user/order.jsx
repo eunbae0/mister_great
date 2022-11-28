@@ -7,7 +7,7 @@ import SelectDinner from '../../components/order/selectDinner';
 import SubmitInfo from '../../components/order/submitInfo';
 import Payment from '../../components/order/payment';
 
-function progressInfoChanger (progress) {
+function createOrder (progress) {
   switch (progress) {
     case 0:
       return '디너 종류와 스타일 선택';
@@ -78,7 +78,7 @@ function Order({ isLogin, uid }) {
   return (
     <div className="h-2/3 w-2/3 mx-auto my-0 flex flex-col items-center justify-center">
       <div className="my-5 p-3 text-2xl text-center font-bold">
-        {progressInfoChanger(progress)}
+        {createOrder(progress)}
       </div>
       <ProgressBar progress={progress} />
       {progressChanger(progress, setProgress, orderId, setOrderId, isLogin, uid)}
