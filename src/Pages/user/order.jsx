@@ -33,7 +33,7 @@ function createOrder (progress, setProgress, orderId, setOrderId, isLogin, uid) 
   }
 }
 
-function OrderBox({order, orderInfo, setOrderInfo, progress}) {
+function OrderForm({order, orderInfo, setOrderInfo, progress}) {
   const onChangeOrderQuantity = (e, orderListId) => {
     const num = e.target.value;
     const orderList = orderInfo.orderList.filter(order => order.orderListId === orderListId)[0];
@@ -87,7 +87,7 @@ function Order({ isLogin, uid }) {
         .filter((list) => list.orderListId > 0)
         .sort((a, b) => a.orderListId - b.orderListId)
         .map(order => (
-        <OrderBox key={order.orderListId} order={order} orderInfo={orderInfo} setOrderInfo={setOrderInfo} progress={progress}/>
+        <OrderForm key={order.orderListId} order={order} orderInfo={orderInfo} setOrderInfo={setOrderInfo} progress={progress}/>
       ))}
       <div className="text-lg font-bold mt-4">최종 결제 금액: ${orderInfo.finalAmount}</div>
     </div>
